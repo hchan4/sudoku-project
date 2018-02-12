@@ -1,6 +1,8 @@
 # sudoku-project
 Sudoku built with Dynamic HTML and JavaScript
 
+Build web page/GUI first, then algos for functioning game
+
 - Interactive table cells for num input
 - Buttons: Start/Stop timer, Solve, New board/reset
 - Score: Correct +10, Wrong -5
