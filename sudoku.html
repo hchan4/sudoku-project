@@ -1,104 +1,160 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//w3c//DTD XHTML 1.1//EN" http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<style type="text/css">
-	body {background-color: white;}
-	#button {border: 1px; background-color: #aacbff; text-decoration-color: black; padding: 5px;}
-  #timer {border: 1px; background-color: white; text-decoration-color: black; padding: 5px;}
-  h2 {text-align: center;}
-	h1 {text-align: center;}
+    <title>Project 1</title>
+<style>
+ .Tictactoe {
+   width: 75px;
+   height: 75px;
+   text-align: center;
+   font-size: 30pt;
+   font-weight: bold;
+ }
+ .input-prepend span.pre_text {width:55px}
+.input-prepend .span1{width:93px}
+.input-prepend {margin-bottom:10px}
+.input-append .win_times {background:#fff; width:101px}
+.input-append .win_text {width:52px}
+
 </style>
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>
-Sudoku Project
-</title>
-<!--Timer-->
-<script src="lib/easytimer/dist/easytimer.min.js"></script>
 <script>
-var timer = new Timer();
-$('#controls.startTimer').click(function () {
-    timer.start();
-});
-$('#controls.stopTimer').click(function () {
-    timer.stop();
-});
-$('#controls.newBoard').click(function () {
-    timer.reset();
-});
-timer.addEventListener('secondsUpdated', function (e) {
-    $('#controls.values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('started', function (e) {
-    $('#controls.values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('reset', function (e) {
-    $('#controls.values').html(timer.getTimeValues().toString());
-});
-</script>
+  var Owins;
+  var Xwins;
+  var ties;
 
-<script type = "text/javaScript">
-  function solveBoard(){};
-  function newBoard(){};
-  function winLoss(){};
-  function scoreCount(){};
+ function start(){
+  for (var j=1;j<=9; j=j+1) {
+   reset(j);
+  }
+  document.turn="X";
+  document.winner=null;
+  announce("Turn: " + document.turn);
+ }
+ function announce(play) {
+  document.getElementById("player").innerText = play;
+ }
+
+ function game(Tictactoe) {
+  if (document.winner!=null){
+    announce(document.winner + " won.");
+
+    if (document.winner=="x"){
+      xWins++;
+      $('#x_win').text(x_win)
+    } else if (document.winner=="o"){
+      Owins++;
+      $('#o_win').text(x_win)
+    } else {
+      ties++;
+      $('#tie_s').text(x_win)
+    }
+
+  } else if (Tictactoe.innerText==""){
+    Tictactoe.innerText=document.turn;
+    nextplayer();
+  } else {
+
+    }
+  }
+
+ function changeplayer(){
+  if (winner(document.turn)) {
+    announce("Player " + document.turn + " wins!");
+     document.winner=document.turn;
+  } else if(document.turn=="X") {
+     document.turn="O";
+     announce("It's " + document.turn + "'s turn!");
+  } else {
+     document.turn="X";
+     announce("It's " + document.turn + "'s turn!");
+    }
+ }
+ function CheckforTie(){
+    for(var i=1;i<10;i++){
+        if(getBox(i)=="")
+        return false;
+    }
+        return true;
+}
+ function winner(move) {
+   var result =false;
+  if (rules(1, 2, 3, move) || rules(4, 5, 6, move) || rules(7, 8, 9, move) || rules(1, 4, 7, move) || rules(2, 5, 8, move) || rules(3, 6, 9, move) || rules(1, 5, 9, move) || rules(3, 5, 7, move)) {
+  result = true;
+  }
+  return result;
+  }
+
+ function rules(m,y,z,move) {
+  var result=false;
+  if (rulesbox(m) == move && rulesbox(y) == move && rulesbox(z) == move) {
+   result = true;
+  }
+  return result;
+ }
+ function rulesbox(number) {
+  return document.getElementById("a" + number).innerText;
+ }
+ function reset(number){
+  document.getElementById("a" + number).innerText="";
+ }
 </script>
 </head>
+<body onload="start()">
+    <h2 style="text-align:center;"> Project 1: Tic-Tac-Toe </h2>
+    <h5 style="text-align:center;"> Tanaja Lloyd & Hoiyan Chan </h4>
 
-<body>
-<table id="table" width="100%">
-<tr>
-<th></th>
-<th></th>
-</tr>
-<tr>
-<td width="70%">
-	<h1>SUDOKU</h1><br />
-	<center>
-  <div class="controls">
-	  <button class="startTimer" id="button">Start</button>
-	  <button class="stopTimer" id="button">Stop</button>
-    <div class="values" id="timer">00:00:00</div>
-    <button class="solveBoard" id="button">Solve</button>
-	  <button class="newBoard" id="button">New Board</button>
-    <br /> <br />
-  </div>
-</center><br />
-
-</td>
-
-<!--left side of the page-->
-<td width="30%">
-  <!--win loss count-->
-	<div id="winloss" border="1">
-
-	</div><br />
-
-  <!--score count-->
-  <div id="score" border="1">
-
-	</div><br />
-
-  <!--game directions-->
-  <div id="directions" border="1">
-    <h3>GAME DIRECTIONS</h3><br /> <br />
-    <p>There are 9 rows and columns in a traditional Sudoku puzzle. Every row must contain the numbers 1,
-    2, 3, 4, 5, 6, 7, 8, and 9. There may not be any duplicate numbers in any row. In other words, there
-  can not be any rows that are identical.</p><br />
-    <p>Like the Sudoku rule for rows, every colum must also contain the numbers 1, 2, 3, 4, 5, 6, 7, 8, and 9.
-    Again, there may not be any duplicate numbers in any column. Each column will be unique as a result. A region
-  is a 3x3 box. there are 9 regions in a traditional Sudoku puzzle. </p><br />
-    <p>Like the Sudoku requirements for rows and columns, every region must also contain the numbers 1, 2, 3,
-    4, 5, 6, 7, 8, and 9. Duplicate numbers are not permitted in any region. Each region will differ from the other regions.</p>
-	</div><br />
-</td>
+      <center>
+    <button onclick="start()">Start</button><br/>
+    <button onclick="start()">Reset</button>
 
 
-</center>
-</tr>
-</table>
+    <div class="span3" align="center">
+      <div class="input-prepend input-append">
+        <span class="add-on win_text">O won</span><strong id="o_win" class="win_times add-on">0</strong><span class="add-on">time(s)</span>
+      </div>
+      <div class="input-prepend input-append">
+        <span class="add-on win_text">X won</span><strong id="x_win" class="win_times add-on">0</strong><span class="add-on">time(s)</span>
+      </div>
+      <div class="input-prepend input-append">
+        <span class="add-on win_text">Tie</span><strong id="tie_s" class="win_times add-on">0</strong><span class="add-on">time(s)</span>
+      </div>
+    </div>
 
+    <div id = "player" ></div>
+  </center>
+
+    <table align="center" border="4">
+        <tr>
+         <td id="a1" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a2" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a3" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+
+        </tr>
+        <tr>
+         <td id="a4" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a5" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a6" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+
+        </tr>
+        <tr>
+         <td id="a7" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a8" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+         <td id="a9" class="Tictactoe" style="width:75px; height:75px" onclick="game(this);"></td>
+       </tr>
+
+   <!-- </table>
+    <table border="2">
+        <tr>
+            <td>X wins</td>
+            <td style="width: 25px;" onclick="Xwin()"></td>
+        </tr>
+        <tr>
+            <td>O wins</td>
+            <td style="width: 25px;" onclick="Xwin()"></td>
+        </tr>
+    </table> -->
 </body>
 </html>
