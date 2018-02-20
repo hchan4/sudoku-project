@@ -21,8 +21,8 @@
 </style>
 
 <script>
-  var Owins;
-  var Xwins;
+  var oWins;
+  var xWins;
   var ties;
 
  function start(){
@@ -41,17 +41,6 @@
   if (document.winner!=null){
     announce(document.winner + " won.");
 
-    if (document.winner=="x"){
-      xWins++;
-      $('#x_win').text(x_win)
-    } else if (document.winner=="o"){
-      Owins++;
-      $('#o_win').text(x_win)
-    } else {
-      ties++;
-      $('#tie_s').text(x_win)
-    }
-
   } else if (Tictactoe.innerText==""){
     Tictactoe.innerText=document.turn;
     nextplayer();
@@ -60,10 +49,22 @@
     }
   }
 
- function changeplayer(){
+ function nextplayer(){
   if (winner(document.turn)) {
     announce("Player " + document.turn + " wins!");
      document.winner=document.turn;
+
+     if (document.winner=="x"){
+       xWins++;
+       $('#x_win').text(xWins)
+     } else if (document.winner=="o"){
+       oWins++;
+       $('#o_win').text(oWins)
+     } else {
+       ties++;
+       $('#tie_s').text(ties)
+     }
+
   } else if(document.turn=="X") {
      document.turn="O";
      announce("It's " + document.turn + "'s turn!");
